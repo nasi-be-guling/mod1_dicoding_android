@@ -31,18 +31,6 @@ public class OptionDialogFragment extends DialogFragment implements View.OnClick
     }
 
     @Override
-    private void onAttach(Context context){
-        super.onAttach(context);
-
-        Fragment fragment = getParentFragment();
-
-        if (fragment instanceof  DetailCategoryFragment){
-            DetailCategoryFragment detailCategoryFragment = (DetailCategoryFragment) fragment;
-            this.optionDialogListener = detailCategoryFragment.option
-        }
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -63,7 +51,23 @@ public class OptionDialogFragment extends DialogFragment implements View.OnClick
         rbMoyes = view.findViewById(R.id.rb_moyes);
     }
 
+    @Override
+    public void onAttach(Context context){
+        super.onAttach(context);
 
+        Fragment fragment = getParentFragment();
+
+        if (fragment instanceof  DetailCategoryFragment){
+            DetailCategoryFragment detailCategoryFragment = (DetailCategoryFragment) fragment;
+            this.optionDialogListener = detailCategoryFragment.optionDialogListener;
+        }
+    }
+
+    @Override
+    public void onDetach(){
+        super.onDetach();
+        this.optionDialogListener = null;
+    }
 
     public interface OnOptionDialogListener {
         void onOptionChosen(String text);
